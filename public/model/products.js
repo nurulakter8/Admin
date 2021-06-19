@@ -16,4 +16,18 @@ export class Products {
 			imageURL: this.imageURL,
 		}
 	}
+
+	validate(imageFile){
+		const errors = {};
+		if (!this.name || this.name.length < 2)
+		errors.name = 'Product name too short; min 3 chars';
+		if (!this.price || !Number(this.price))
+		errors.price = 'price is not a number';
+		if (!this.summary || this.summary.length < 5)
+		errors.summary = 'Summary too short; min 5 chars';
+		if (!imageFile)
+		errors.image = 'image not selected';
+
+		return errors;
+	}
 }
