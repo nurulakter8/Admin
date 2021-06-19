@@ -12,13 +12,20 @@ export function addEventListener() {
 
 	Element.menuproducts.addEventListener('click', async () => {
 		history.pushState(null, null, Route.routePathname.PRODUCTS);
+		const button = Element.menuproducts;
+		const label = util.disableButton(button);
 		await product_page();
+		util.sleep(1000);
+		util.enableButton(button,label);
 	})
 
 	Element.formAddProducts.form.addEventListener('submit', async e => {
 		e.preventDefault();
+		const button = e.target.getElementsByTagName('button')[0];
+		const label = util.disableButton(button);
 		await addNewProduct(e.target);
-		await product_page();
+		await product_page();		
+		util.enableButton(button,label);
 	})
 
 	Element.formAddProducts.imageButton.addEventListener('change', e => {
@@ -60,6 +67,9 @@ export async function product_page() {
 	Element.root.innerHTML = html;
 
 	document.getElementById('button-add-product').addEventListener('click', () => {
+		Element.formAddProducts.form.reset();
+		Element.formAddProducts.image.src = '';
+		imageFile2Upload = null;
 		Element.modalAddProducts.show();
 	});
 

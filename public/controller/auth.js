@@ -2,6 +2,7 @@ import * as Element from '../viewpage/element.js'
 import * as FirebaseController from './firebase_controller.js'
 import * as Constant from '../model/constant.js'
 import * as Util from '../viewpage/util.js'
+import * as Route from './route.js'
 
 export let currentUser;
 
@@ -46,6 +47,10 @@ export function addEventListners() {
 			for (let index = 0; index < elements.length; index++) {
 				elements[index].style.display = 'block'
 			}
+
+			const pathname = window.location.pathname;
+			const hash = window.location.hash;
+			Route.routing(pathname,hash);
 		} else {
 			//signout
 			currentUser = null;
@@ -56,6 +61,8 @@ export function addEventListners() {
 			elements = document.getElementsByClassName('modal-post-auth');
 			for (let index = 0; index < elements.length; index++) {
 				elements[index].style.display = 'none'
+
+				history.pushState(null, null, Route.routePathname.HOME);
 		}
 	}
 	})
