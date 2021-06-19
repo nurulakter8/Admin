@@ -1,4 +1,5 @@
 import * as Constant from '../model/constant.js'
+import { Products } from '../model/products.js';
 
 export async function signIn(email, password) {
 	await firebase.auth().signInWithEmailAndPassword(email, password);
@@ -22,4 +23,16 @@ export async function uploadImage(imageFile, imageName) {
 	const taskSnapShot = await ref.put(imageFile);
 	const imageURL = await taskSnapShot.ref.getDownloadURL();
 	return {imageName, imageURL};
+}
+
+const cf_getProductsList = firebase.functions().httpsCallable('cf_getProductsList')
+export async function getProductionList(){
+	const products = [];
+	const result = await cf_getProductsList(); // result.data
+	result.data.forEach(data => {
+		const p = new Products(data)
+		p.docId = data.docId;
+		products.push(p)
+	});
+	return products;
 }

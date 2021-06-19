@@ -3,23 +3,27 @@ import * as Element from './element.js'
 import * as FirebaseController from '../controller/firebase_controller.js'
 import * as Constant from '../model/constant.js'
 import * as util from './util.js'
+import * as Route from '../controller/route.js'
+
 
 let imageFile2Upload;
 
 export function addEventListener() {
 
-	Element.menuproducts.addEventListener('click',async () => {
+	Element.menuproducts.addEventListener('click', async () => {
+		history.pushState(null, null, Route.routePathname.PRODUCTS);
 		await product_page();
 	})
 
-	Element.formAddProducts.form.addEventListener('submit',async e => {
+	Element.formAddProducts.form.addEventListener('submit', async e => {
 		e.preventDefault();
-		addNewProduct(e.target);
+		await addNewProduct(e.target);
+		await product_page();
 	})
 
-	Element .formAddProducts.imageButton.addEventListener('change', e=>{
+	Element.formAddProducts.imageButton.addEventListener('change', e => {
 		imageFile2Upload = e.target.files[0];
-		if(!imageFile2Upload) {
+		if (!imageFile2Upload) {
 			Element.formAddProducts.image.src = null;
 			return;
 		}
@@ -38,15 +42,30 @@ export async function product_page() {
 		</div>
 	`;
 
+	let products;
+	try {
+		products = await FirebaseController.getProductionList();
+	} catch (e) {
+		if (Constant.DEV) console.log(e);
+		util.info('cannot get product list', JSON.stringify(e));
+		return;
+	}
+
+	//render products
+	products.forEach(p => {
+		html += buildProductCard(p);
+	});
+
+
 	Element.root.innerHTML = html;
 
-	document.getElementById('button-add-product').addEventListener('click' , ()=> {
+	document.getElementById('button-add-product').addEventListener('click', () => {
 		Element.modalAddProducts.show();
 	});
 
 }
 
-async function addNewProduct(form){
+async function addNewProduct(form) {
 	const name = form.name.value;
 	const price = form.price.value;
 	const summary = form.summary.value;
@@ -62,20 +81,32 @@ async function addNewProduct(form){
 	Element.formAddProducts.errorSummary.innerHTML = errors.summary ? errors.summary : '';
 	Element.formAddProducts.errorImage.innerHTML = errors.image ? errors.image : '';
 
-	if(Object.keys(errors).length != 0) return; //error exists 
+	if (Object.keys(errors).length != 0) return; //error exists 
 
 	//save the product in firebase
 
 	// 1 . upload to img cloud storage => imge , url 
 	// 2. store produtt into firesyore img info 
 	try {
-		const {imageName, imageURL} = await FirebaseController.uploadImage(imageFile2Upload);
+		const { imageName, imageURL } = await FirebaseController.uploadImage(imageFile2Upload);
 		product.imageName = imageName;
 		product.imageURL = imageURL;
 		await FirebaseController.addProduct(product.serialize());
 		util.info('Success', `${product.name} added!`, Element.modalAddProducts);
 	} catch (error) {
-		if(Constant.DEV) console.log(e);
+		if (Constant.DEV) console.log(e);
 		util.info('Add product failed', JSON.stringify(e), Element.modalAddProducts);
 	}
+}
+
+function buildProductCard(product) {
+	return `
+	<div class="card" style="width: 18rem; display: inline-block">
+		<img src="${product.imageURL}" class="card-img-top">
+		<div class="card-body"><h5 class="card-title">${product.name}</h5>
+	  		<p class="card-text">$ ${product.price} <br> ${product.summary}</p>
+		</div>
+  	</div>
+	`;
+
 }
