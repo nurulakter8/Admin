@@ -26,7 +26,8 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<button class="btn btn-outline-danger modal-pre-auth">Sign In</button>
+						<button class="btn btn-outline-danger modal-pre-auth" data-bs-toggle="modal"
+							data-bs-target="#modal-signin">Sign In</button>
 					</li>
 					<li class="nav-item">
 						<button class="btn btn-outline-primary modal-post-auth">Home</button>
@@ -45,6 +46,32 @@
 		</div>
 	</nav>
 
+	<!-- Modal : sign in -->
+	<div class="modal fade" id="modal-signin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="modal-signin-label" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal-signin-label">Sign In, Please</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
+				</div>
+				<div class="modal-body">
+					<form id="form-signin">
+						<div>
+							<input type="email" name="email" placeholder="Enter Email Address">
+						</div>
+						<div>
+							<input type="password" name="password" placeholder="Password">
+						</div>
+						<div>
+							<button type="submit" class="btn btn-outline-primary">Sign In</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- Modal : popup info box-->
 	<div class="modal fade" id="modal-info" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
 		aria-labelledby="modal-info-title" aria-hidden="true">
@@ -54,7 +81,7 @@
 					<h5 class="modal-title" id="modal-info-title"></h5>
 				</div>
 				<div id="modal-info-body" class="modal-body">
-					
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
