@@ -8,3 +8,11 @@
 li{
 	margin-right: 15px;
 }
+
+.modal-pre-auth{
+	display: block;
+}
+
+.modal-post-auth{
+	display: none;
+}
