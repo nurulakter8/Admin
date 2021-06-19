@@ -39,12 +39,51 @@
 						<button class="btn btn-outline-primary modal-post-auth">Users</button>
 					</li>
 					<li class="nav-item">
-						<button class="btn btn-outline-danger modal-post-auth">Sign Out</button>
+						<button id="menu-signout" class="btn btn-outline-danger modal-post-auth">Sign Out</button>
 					</li>
 				</ul>
 			</div>
 		</div>
 	</nav>
+
+	<!-- Modal : add new products-->
+	<div class="modal fade" id="modal-add-product" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="modal-add-product-label" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal-add-product-label">Add new product</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="form-add-product">
+						<div>
+							<input type="text" name="name" placeholder="product name"> 
+							<p id="form-add-products-error-name" class="my-error"></p>
+						</div>
+						<div>
+							<input type="text" name="price" placeholder="price ($)"> 
+							<p id="form-add-products-error-price" class="my-error"></p>
+						</div>
+						<div>
+							Summary<br />
+							<textarea name="summary"  ></textarea>
+							<p id="form-add-products-error-summary" class="my-error"></p>
+						</div>
+						<div>
+							<img id="form-add-product-image" style= "display: block;"  src="" alt="" />
+							<input id="form-add-product-image-button" type="file" value="upload" />
+							<p id="form-add-products-error-image" class="my-error"></p>
+						</div>
+						<div>
+							<button type="submit" class="btn btn-outline-primary"> Add </button> 
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
 
 	<!-- Modal : sign in -->
 	<div class="modal fade" id="modal-signin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -53,7 +92,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="modal-signin-label">Sign In, Please</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<form id="form-signin">
