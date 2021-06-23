@@ -3,6 +3,7 @@ import * as Auth from './controller/auth.js'
 import * as ProducPage from './viewpage/product_page.js'
 import * as Home from './viewpage/home_page.js'
 import * as User from './viewpage/user_page.js'
+import * as Edit from './controller/edit_product.js'
 
 window.onload =() => {
 	const pathname = window.location.pathname;
@@ -22,3 +23,4 @@ Auth.addEventListners();
 ProducPage.addEventListener();
 Home.addEventListener();
 User.addEventListener();
+Edit.addEventListeners();
