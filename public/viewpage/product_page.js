@@ -5,6 +5,7 @@ import * as Constant from '../model/constant.js'
 import * as util from './util.js'
 import * as Route from '../controller/route.js'
 import * as Edit from '../controller/edit_product.js'
+import * as Auth from '../controller/auth.js'
 
 let imageFile2Upload;
 
@@ -43,6 +44,9 @@ export function addEventListener() {
 
 
 export async function product_page() {
+
+	if(!Auth.currentUser) return;
+
 	let html = `
 		<div>
 			<button id = "button-add-product" class="btn btn-outline-danger">+Add Product</button> 
